@@ -8,7 +8,7 @@ module.exports = {
         app: './src/template/index.js',
     },
     output: {
-        path: path.resolve(__dirname, '../dist'),,
+        path: path.resolve(__dirname, '../dist'),
         filename: "[name].[hash].js",
         libraryTarget: 'umd'
     },
