@@ -3,7 +3,8 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
-module.exports = {
+// vue 公共的配置
+let config = {
     entry: {
         app: './src/template/index.js',
     },
@@ -80,4 +81,16 @@ module.exports = {
         }),
         new VueLoaderPlugin()
     ]
+}
+
+module.exports = (env, argv) => {
+    if (argv.mode === 'development') {
+        // 开发环境特有的配置
+
+    } else {
+        // 生成环境特有的配置
+
+    }
+
+    return config
 }
