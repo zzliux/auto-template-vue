@@ -5,8 +5,6 @@ import { fromEvent, race, timer } from 'rxjs'
 import { share, exhaustMap, tap } from 'rxjs/operators'
 
 core({
-    baseWidth: 1280,
-    baseHeight: 720,
     needCap: true,
     needFloaty: true
     // needService: true,
@@ -15,14 +13,23 @@ core({
 
 export const webview = run('file://' + files.path('dist/index.html'), {
     afterLayout() {
-        setSystemUiVisibility('有状态栏的沉浸式界面')
+        if (device.sdkInt >= 23) { // SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            setSystemUiVisibility('有状态栏的沉浸式界面')
+        }
+        activity.getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+    },
+    chromeClientOption: {
+        onConsoleMessage: function (msg) {
+            console.log(msg.message());
+        }
     }
-})
+});
+webview.webviewObject.clearCache(true);
 
 // 监听退出事件，关闭前台服务
 events.on('exit', () => {
     closeForeground()
-})
+});
 
 // 监听返回键并共享事件
 const back$ = fromEvent(ui.emitter, "back_pressed").pipe(share())

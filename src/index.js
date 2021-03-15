@@ -7,16 +7,12 @@ effect$.subscribe(() => {
     toastLog('权限已经到位')
 
     // 监听html的prompt('submit', JSON.stringify(param))
-    webview.on('submit').subscribe(([param, done]) => {
+    webview.on('toastLog').subscribe(([str, done]) => {
+        toastLog(str);
+        done();
+    });
 
-
-        toastLog(`点击了登录按钮，获得参数${param}`)
-
-        // 使用done给html返回结果，这里返回获得的参数
-        done(param)
-
-        webview.runHtmlJS('document.title').subscribe(v => {
-            toastLog(`title is ${v}`)
-        })
-    })
+    webview.on('randomNum').subscribe(([_param, done]) => {
+        done(random(1, 100));
+    });
 })

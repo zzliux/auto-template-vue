@@ -3,6 +3,15 @@ import VueRouter from "vue-router";
 import 'vant/lib/index.css';
 import App from './App.vue';
 
+// 手动给AutoWeb封装一个promise方法
+AutoWeb.autoPromise = function (eventname, params) {
+	return new Promise((resolve, reject) => {
+		AutoWeb.auto(eventname, params, result => {
+			resolve(result);
+		});
+	});
+}
+
 Vue.use(VueRouter);
 
 var router = new VueRouter({

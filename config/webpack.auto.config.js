@@ -1,6 +1,5 @@
 const path = require("path")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
-const JavascriptObfuscator = require("webpack-obfuscator")
 const AutoProWebpackPlugin = require('@auto.pro/webpack-plugin')
 const ProgressPlugin = require('progress-bar-webpack-plugin')
 
@@ -15,10 +14,7 @@ for (let i = 1024; i < 2048; i++) {
 }
 
 const compilePlugin = new AutoProWebpackPlugin({
-    ui: ["app"],
-    // entry: {
-    //     key: ''
-    // }
+    ui: ["auto"],
 })
 
 const config = {
@@ -26,7 +22,7 @@ const config = {
         app: path.resolve(__dirname, "../src/index.js"),
     },
     output: {
-        filename: "[name].js",
+        filename: "auto.js",
         path: path.resolve(__dirname, "../dist"),
         libraryTarget: "var"
         // libraryTarget: "commonjs2"
@@ -73,20 +69,10 @@ module.exports = (env, argv) => {
             compilePlugin,
             new ProgressPlugin()
         ]
-        config.devtool = 'source-map'
     } else {
         config.plugins = [
             new CleanWebpackPlugin({
-                cleanOnceBeforeBuildPatterns: []
-            }),
-            new JavascriptObfuscator({
-                compact: true,
-                identifierNamesGenerator: "dictionary",
-                identifiersDictionary: dictionary,
-                target: "node",
-                transformObjectKeys: false,
-                stringArray: true,
-                stringArrayEncoding: ['rc4'],
+                // cleanOnceBeforeBuildPatterns: []
             }),
             compilePlugin,
             new ProgressPlugin()
